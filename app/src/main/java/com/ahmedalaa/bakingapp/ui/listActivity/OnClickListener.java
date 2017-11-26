@@ -6,4 +6,6 @@ package com.ahmedalaa.bakingapp.ui.listActivity;
 
 public interface OnClickListener {
     void onItemClick(int position);
+
+    boolean isTwoPane();
 }

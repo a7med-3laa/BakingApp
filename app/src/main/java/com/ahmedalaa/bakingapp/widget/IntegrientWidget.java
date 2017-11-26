@@ -13,15 +13,17 @@ import com.ahmedalaa.bakingapp.util.IngredientsWidgetManager;
  * Implementation of App Widget functionality.
  */
 public class IntegrientWidget extends AppWidgetProvider {
+    String name;
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = new IngredientsWidgetManager(context).loadRecipe().name;
-
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredient_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
         views.setRemoteAdapter(R.id.appwidget_list, new Intent(context, WidgetService.class));
+        String recipe = new IngredientsWidgetManager(context).getName();
+
+        views.setTextViewText(R.id.appwidget_text, recipe);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -39,6 +41,7 @@ public class IntegrientWidget extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
+
         }
     }
 

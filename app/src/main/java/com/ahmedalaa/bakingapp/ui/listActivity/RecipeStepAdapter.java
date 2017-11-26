@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ahmedalaa.bakingapp.R;
 import com.ahmedalaa.bakingapp.model.RecipeIngredient;
 import com.ahmedalaa.bakingapp.model.RecipeStep;
 import com.ahmedalaa.bakingapp.model.RecipeStepWrapper;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -55,9 +57,15 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(RecyclerView.ViewHolder holder2, int position) {
         int type = getItemViewType(position);
         if (type == 1) {
-            RecipeStep item = items.get(position % (items.size() - 1));
+            RecipeStep item = items.get(position - (items2.size()));
             RecipeStepAdapterHolder holder = (RecipeStepAdapterHolder) holder2;
             holder.recipeName.setText(item.getShortDescription());
+            if (item.getThumbnailURL().isEmpty())
+                holder.recipeImg.setImageResource(R.drawable.ic_food);
+            else
+                Picasso.with(context).load(item.getThumbnailURL()).placeholder(R.drawable.ic_food)
+                        .error(R.drawable.ic_food).into(holder.recipeImg);
+
         } else if (type == 0) {
             RecipeIngredient item = items2.get(position);
             IngredientsAdapterHolder holder = (IngredientsAdapterHolder) holder2;
@@ -85,11 +93,14 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     class RecipeStepAdapterHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recipe_name)
         TextView recipeName;
+        @BindView(R.id.recipe_img)
+        ImageView recipeImg;
 
         RecipeStepAdapterHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(v -> {
+
 
                 RecipeStepWrapper.setList(items);
                 clickListener.onItemClick((getAdapterPosition() - (items2.size() - 1)));
@@ -103,7 +114,6 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView ingredientTxt;
         @BindView(R.id.ingredient_calc)
         TextView ingredientCalc;
-
         public IngredientsAdapterHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

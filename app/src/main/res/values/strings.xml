@@ -8,4 +8,5 @@
     <string name="add_widget">Add widget</string>
     <string name="previous_btn">previous</string>
     <string name="next_btn">next</string>
+    <string name="widget_empty">No Ingredients selected</string>
 </resources>

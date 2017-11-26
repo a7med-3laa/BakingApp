@@ -1,5 +1,6 @@
 package com.ahmedalaa.bakingapp.ui.detailsActivity;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +15,6 @@ import com.ahmedalaa.bakingapp.model.RecipeStep;
 import com.ahmedalaa.bakingapp.model.RecipeStepWrapper;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -55,12 +55,19 @@ public class RecipeDetailFragment extends Fragment {
     @Nullable
     @BindView(R.id.recipe_step_detail)
     TextView recipeStepDetail;
-    private Timeline.Window window;
+    RecipeDetailActivity recipeDetailActivity;
     private RecipeStep mItem;
     private long time = 0;
     private int win = 0;
 
     public RecipeDetailFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof RecipeDetailActivity)
+            recipeDetailActivity = (RecipeDetailActivity) context;
     }
 
     @Optional
@@ -129,9 +136,8 @@ public class RecipeDetailFragment extends Fragment {
 
         // Measures bandwidth during playback. Can be null if not required.
         dataSourceFactory = new DefaultDataSourceFactory(getActivity(),
-                Util.getUserAgent(getActivity(), "yourApplicationName"));
+                Util.getUserAgent(getActivity(), "Baking app"));
         trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        window = new Timeline.Window();
         player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector);
         // Produces Extractor instances for parsing the media data.
         extractorsFactory = new DefaultExtractorsFactory();
@@ -157,6 +163,9 @@ public class RecipeDetailFragment extends Fragment {
         player.prepare(videoSource, true, false);
         if (recipeStepDetail != null) {
             recipeStepDetail.setText(mItem.description);
+        } else {
+            if (recipeDetailActivity != null)
+                recipeDetailActivity.hideToolBar();
         }
         player.seekTo(win, time);
 
@@ -176,6 +185,12 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         releasePlayer();
     }
 

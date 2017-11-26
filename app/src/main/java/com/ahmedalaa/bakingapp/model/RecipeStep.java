@@ -27,6 +27,7 @@ public class RecipeStep {
     @Expose
     public String thumbnailURL;
 
+
     public RecipeStep() {
     }
 

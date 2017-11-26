@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ahmedalaa.bakingapp.R;
 import com.ahmedalaa.bakingapp.model.Recipe;
 import com.ahmedalaa.bakingapp.ui.listActivity.RecipeListActivity;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -47,6 +48,11 @@ public class RecipeMainAdapter extends RecyclerView.Adapter<RecipeMainAdapter.Re
     public void onBindViewHolder(RecipeListAdapterHolder holder, int position) {
         Recipe item = items.get(position);
         holder.recipeName.setText(item.getName());
+        if (item.getImage().isEmpty())
+            holder.recipeImg.setImageResource(R.drawable.ic_food);
+        else
+            Picasso.with(context).load(item.getImage()).placeholder(R.drawable.ic_food)
+                    .error(R.drawable.ic_food).into(holder.recipeImg);
     }
 
     @Override

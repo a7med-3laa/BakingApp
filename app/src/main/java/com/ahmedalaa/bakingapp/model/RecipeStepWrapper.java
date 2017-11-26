@@ -14,6 +14,7 @@ public class RecipeStepWrapper {
     }
 
     public static RecipeStep getStep(int pos) {
-        return steps.get(pos);
+        return steps.get(pos - 1);
     }
+
 }

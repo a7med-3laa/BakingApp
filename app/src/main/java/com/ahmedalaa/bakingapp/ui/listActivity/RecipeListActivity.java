@@ -29,6 +29,7 @@ public class RecipeListActivity extends AppCompatActivity implements OnClickList
 
     @BindView(R.id.ingredients_list)
     RecyclerView ingredientsList;
+
     Recipe recipe;
     private boolean mTwoPane;
 
@@ -56,6 +57,7 @@ public class RecipeListActivity extends AppCompatActivity implements OnClickList
             mTwoPane = true;
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,6 +92,7 @@ public class RecipeListActivity extends AppCompatActivity implements OnClickList
 
         RecipeStepAdapter recipeStepAdapter = new RecipeStepAdapter(this, recipe.getSteps(),
                 recipe.getIngredients(), this);
+
         ingredientsList.setAdapter(recipeStepAdapter);
 
     }
@@ -116,5 +119,10 @@ public class RecipeListActivity extends AppCompatActivity implements OnClickList
             context.startActivity(intent);
         }
 
+    }
+
+    @Override
+    public boolean isTwoPane() {
+        return mTwoPane;
     }
 }

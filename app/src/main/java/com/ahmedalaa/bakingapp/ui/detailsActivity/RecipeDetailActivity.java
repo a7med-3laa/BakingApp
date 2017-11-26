@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.ahmedalaa.bakingapp.R;
 import com.ahmedalaa.bakingapp.ui.listActivity.RecipeListActivity;
@@ -19,12 +20,13 @@ import com.ahmedalaa.bakingapp.ui.listActivity.RecipeListActivity;
 public class RecipeDetailActivity extends AppCompatActivity {
     RecipeDetailFragment fragment;
     String name;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
-        Toolbar toolbar = findViewById(R.id.detail_toolbar);
+        toolbar = findViewById(R.id.detail_toolbar);
         if (getIntent().hasExtra("name")) {
             toolbar.setTitle(getIntent().getStringExtra("name"));
             name = getIntent().getStringExtra("name");
@@ -82,5 +84,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void hideToolBar() {
+        toolbar.setVisibility(View.GONE);
     }
 }
