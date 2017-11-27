@@ -191,6 +191,12 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        bindData();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         releasePlayer();
