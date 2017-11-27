@@ -59,6 +59,7 @@ public class RecipeDetailFragment extends Fragment {
     private RecipeStep mItem;
     private long time = 0;
     private int win = 0;
+    private boolean isPlaying = true;
 
     public RecipeDetailFragment() {
     }
@@ -111,6 +112,7 @@ public class RecipeDetailFragment extends Fragment {
             time = savedInstanceState.getLong("time", 0);
             win = savedInstanceState.getInt("win");
             pos = savedInstanceState.getInt("pos");
+            isPlaying = savedInstanceState.getBoolean("isPlaying");
         }
         mItem = RecipeStepWrapper.getStep(pos);
 
@@ -156,7 +158,7 @@ public class RecipeDetailFragment extends Fragment {
             }
 
         });
-        player.setPlayWhenReady(true);
+        player.setPlayWhenReady(isPlaying);
         player.seekTo(win, time);
 
         // Prepare the player with the source.
@@ -199,6 +201,8 @@ public class RecipeDetailFragment extends Fragment {
         outState.putLong("time", player.getCurrentPosition());
         outState.putInt("win", player.getCurrentWindowIndex());
         outState.putInt("pos", pos);
+        outState.putBoolean("isPlaying", player.getPlayWhenReady());
+
         super.onSaveInstanceState(outState);
 
     }
