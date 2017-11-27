@@ -132,6 +132,24 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        bindData();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            time = savedInstanceState.getLong("time", 0);
+            win = savedInstanceState.getInt("win");
+            pos = savedInstanceState.getInt("pos");
+            isPlaying = savedInstanceState.getBoolean("isPlaying");
+        }
+        mItem = RecipeStepWrapper.getStep(pos);
+
+    }
+
+    private void bindData() {
         bandwidthMeter = new DefaultBandwidthMeter();
         videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
 
@@ -146,10 +164,6 @@ public class RecipeDetailFragment extends Fragment {
         // This is the MediaSource representing the media to be played.
         exoPlayerView.setPlayer(player);
 
-        bindData();
-    }
-
-    private void bindData() {
         videoSource = new ExtractorMediaSource(Uri.parse(mItem.videoURL),
                 dataSourceFactory, extractorsFactory, null, new ExtractorMediaSource.EventListener() {
             @Override
@@ -193,7 +207,14 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        releasePlayer();
         bindData();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     @Override
