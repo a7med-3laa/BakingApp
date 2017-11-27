@@ -58,6 +58,12 @@ public class RecipeMainActivityTest {
 
     @Test
     public void recipeMainActivityTest() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.recipes_list),
                         childAtPosition(
